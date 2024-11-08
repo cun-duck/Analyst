@@ -1,7 +1,7 @@
 # app.py
 
 import streamlit as st
-from file_manager.handle_upload import handle_upload
+from handle_upload import handle_upload
 from data_analysis.analyze_data import analyze_file
 from exporter.download_image import download_image
 from exporter.download_excel import download_excel
