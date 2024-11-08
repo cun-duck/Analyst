@@ -1,7 +1,7 @@
 # logger.py
 import requests
 
-TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
+TELEGRAM_BOT_TOKEN = "7590725563:AAH0AoLSrT5WatVESyDYPKkgW53UtMWp4XI"
 CHAT_ID = "YOUR_CHAT_ID"
 
 def send_log_to_telegram(file_name):
