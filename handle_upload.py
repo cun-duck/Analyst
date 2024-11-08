@@ -2,7 +2,7 @@
 
 import pandas as pd
 import os
-
+class HandleUpload
 def handle_upload(uploaded_file):
     """
     Fungsi untuk menangani upload file, validasi ukuran, dan membaca data
