@@ -5,3 +5,6 @@ requests
 numpy
 xlsxwriter
 kaleido
+openpyxl
+xlrd
+python-dotenv
