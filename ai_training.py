@@ -1,32 +1,40 @@
-# ai_training.py
-import threading
+import pandas as pd
 import time
-import random
-import numpy as np
 
-class AIAgent:
-    def __init__(self):
-        self.q_table = np.zeros((5, 5))  # Contoh Q-table sederhana
-    
-    def train(self, episodes=1000, learning_rate=0.1, discount_factor=0.9):
-        for episode in range(episodes):
-            state = random.randint(0, 4)  # Mulai di posisi acak
-            for _ in range(100):  # Maksimum langkah per episode
-                action = random.choice([0, 1])  # Contoh tindakan
-                next_state = (state + action) % 5
-                reward = 1 if next_state == 4 else 0
-                
-                # Update Q-table
-                self.q_table[state, action] = (1 - learning_rate) * self.q_table[state, action] + \
-                                              learning_rate * (reward + discount_factor * np.max(self.q_table[next_state]))
-                state = next_state
-                time.sleep(0.01)  # Simulasi waktu pelatihan
-    
-    def get_q_table(self):
-        return self.q_table
+# Fungsi untuk mempelajari jenis dokumen
+def learn_document_structure(df):
+    """
+    Fungsi untuk mempelajari struktur dokumen dan memberikan rekomendasi berdasarkan jenis data.
+    Agen AI akan mempelajari kolom-kolom data dan menyarankan jenis analisis atau visualisasi.
+    """
+    # Mengidentifikasi kolom numerik dan kategorikal
+    numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
 
-def start_training():
-    agent = AIAgent()
-    training_thread = threading.Thread(target=agent.train)
-    training_thread.start()
-    return agent
+    # Menyimpan hasil analisis
+    document_structure = {
+        'numerical_columns': numerical_cols,
+        'categorical_columns': categorical_cols,
+    }
+
+    return document_structure
+
+# Fungsi untuk memulai pelatihan AI
+def start_training(df=None):
+    """
+    Fungsi untuk memulai pelatihan agen AI yang belajar dari dokumen yang diunggah oleh pengguna.
+    """
+    # Cek apakah ada data yang diunggah
+    if df is not None:
+        # Agen AI belajar dari data yang diunggah
+        document_structure = learn_document_structure(df)
+        print("AI is learning document structure:", document_structure)
+        
+        # Simulasi waktu pelatihan
+        time.sleep(5)  # Simulasi durasi pelatihan
+
+        # Setelah pelatihan, agen siap memberikan rekomendasi
+        return document_structure
+    else:
+        print("No file uploaded for training.")
+        return None
