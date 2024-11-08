@@ -1,5 +1,6 @@
 # app.py
 import streamlit as st
+import pandas as pd
 from file_manager import handle_upload, delete_file
 from visualization import render_visualization
 from exporter import download_excel, download_image
@@ -30,7 +31,16 @@ if uploaded_file is not None:
             # Kirim log ke Telegram setiap ada file baru yang diunggah
             send_log_to_telegram(uploaded_file.name)
 
-            # Sidebar settings
+            # Analis data untuk menentukan jenis visualisasi yang relevan
+            st.write("### Suggested Visualizations")
+            visualizations = analyze_file(df)  # Menambahkan analisis data
+
+            # Tampilkan rekomendasi visualisasi
+            st.write("Recommended Visualizations:")
+            for viz in visualizations:
+                st.write(f"- {viz}")
+            
+            # Sidebar settings untuk memilih jenis visualisasi
             st.sidebar.write("## Visualization Settings")
             visualization_type = st.sidebar.selectbox(
                 "Choose Visualization Type", 
@@ -55,3 +65,19 @@ else:
 
 # Mulai pelatihan AI di latar belakang (tidak terlihat oleh pengguna)
 agent = start_training()
+
+# Fungsi untuk analisis file dan menentukan jenis visualisasi
+def analyze_file(dataframe):
+    columns = dataframe.columns
+    data_types = dataframe.dtypes
+
+    recommended_visualizations = []
+
+    # Tentukan rekomendasi visualisasi berdasarkan tipe data
+    for col, dtype in zip(columns, data_types):
+        if dtype in ['int64', 'float64']:
+            recommended_visualizations.append(f"Histogram for {col}")
+        elif dtype == 'object':
+            recommended_visualizations.append(f"Bar chart for {col}")
+
+    return recommended_visualizations
