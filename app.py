@@ -12,7 +12,12 @@ st.write("Upload a CSV or Excel file to generate data visualizations and analyse
 
 uploaded_file = st.file_uploader("Choose a file (CSV or XLS, max 3MB)", type=["csv", "xls", "xlsx"])
 file_path = None
-
+def analyze_file(df):
+    # Cek apakah data mengandung nilai yang hilang
+    if df.isnull().any().any():
+        st.error("Data contains missing values. Please clean the data.")
+        return None
+    return df  # Return data jika sudah valid
 # Cek ukuran file
 if uploaded_file is not None:
     if uploaded_file.size > 3 * 1024 * 1024:  # 3MB = 3 * 1024 * 1024 bytes
